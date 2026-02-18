@@ -24,6 +24,7 @@ export default function HeroNativeBlur({ template, solution, speed, images }) {
             width={img.width}
             height={img.height}
             priority={i === 0}
+            sizes="100vw"
           />
         ))}
       </div>

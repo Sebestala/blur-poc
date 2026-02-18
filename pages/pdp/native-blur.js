@@ -25,6 +25,7 @@ export default function PdpNativeBlur({ template, solution, speed, images, thumb
               width={img.width}
               height={img.height}
               priority={i === 0}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           ))}
           <div className={styles.thumbnails}>

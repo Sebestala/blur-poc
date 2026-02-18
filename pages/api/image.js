@@ -37,7 +37,8 @@ export default async function handler(req, res) {
     const buffer = await response.arrayBuffer();
 
     res.setHeader('Content-Type', contentType);
-    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
     res.setHeader('X-Simulated-Delay', `${delayMs}ms`);
     res.send(Buffer.from(buffer));
   } catch (error) {

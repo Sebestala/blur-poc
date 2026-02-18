@@ -14,6 +14,7 @@ export default function NativeBlurImage({
   width,
   height,
   priority = false,
+  sizes = '100vw',
 }) {
   return (
     <div
@@ -29,7 +30,7 @@ export default function NativeBlurImage({
         blurDataURL={blurDataURL}
         priority={priority}
         className={styles.nativeImage}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+        sizes={sizes}
       />
     </div>
   );

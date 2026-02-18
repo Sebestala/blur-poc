@@ -8,12 +8,19 @@ export function DemoProvider({ children }) {
   const [transition, setTransitionState] = useState(DEFAULT_TRANSITION);
   const [lcpData, setLcpData] = useState(null);
 
-  // Hydrate from localStorage
+  // Hydrate from URL query params (priority) then localStorage (fallback)
   useEffect(() => {
-    const savedSpeed = localStorage.getItem('blur-poc-speed');
-    const savedTransition = localStorage.getItem('blur-poc-transition');
-    if (savedSpeed) setSpeedState(savedSpeed);
-    if (savedTransition) setTransitionState(savedTransition);
+    const params = new URLSearchParams(window.location.search);
+    const urlSpeed = params.get('speed');
+    const urlTransition = params.get('transition');
+
+    const newSpeed = urlSpeed || localStorage.getItem('blur-poc-speed') || 'fast';
+    const newTransition = urlTransition || localStorage.getItem('blur-poc-transition') || DEFAULT_TRANSITION;
+
+    setSpeedState(newSpeed);
+    setTransitionState(newTransition);
+    localStorage.setItem('blur-poc-speed', newSpeed);
+    localStorage.setItem('blur-poc-transition', newTransition);
   }, []);
 
   const setSpeed = useCallback((value) => {

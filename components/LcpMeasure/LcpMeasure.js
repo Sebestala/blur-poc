@@ -15,7 +15,6 @@ export default function LcpMeasure({ template, solution }) {
     const cleanup = observeLCP((data) => {
       setLcp(data);
       setLcpData(data);
-      setMeasuring(false);
       storeLCPResult(template, solution, speed, data);
     });
 

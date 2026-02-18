@@ -19,7 +19,7 @@ export default function Header() {
     if (speed !== 'fast') params.set('speed', speed);
     if (transition !== 'fadeIn') params.set('transition', transition);
     const qs = params.toString();
-    router.push(`/${template}/${solution}${qs ? `?${qs}` : ''}`);
+    window.location.href = `/${template}/${solution}${qs ? `?${qs}` : ''}`;
   }
 
   function handleSpeedChange(newSpeed) {
