@@ -1,0 +1,32 @@
+import DemoPage from '@components/DemoPage/DemoPage';
+import CustomBlurImage from '@components/DemoImage/CustomBlurImage';
+import { buildDemoProps } from '@lib/pageProps';
+import styles from '@styles/Plp.module.css';
+
+export default function PlpCustomBlur({ template, solution, speed, transition, images }) {
+  return (
+    <DemoPage template={template} solution={solution} speed={speed}>
+      <div className={styles.grid}>
+        {images.map((img, i) => (
+          <div key={img.uuid} className={styles.card}>
+            <CustomBlurImage
+              fullSrc={img.fullSrc}
+              blurSrc={img.blurSrc}
+              alt={img.label}
+              width={img.width}
+              height={img.height}
+              priority={i < 2}
+              transition={transition}
+            />
+            <div className={styles.cardInfo}>
+              <span className={styles.cardName}>Product Name</span>
+              <span className={styles.cardPrice}>$1,290</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </DemoPage>
+  );
+}
+
+export const getServerSideProps = buildDemoProps('plp', 'custom-blur');

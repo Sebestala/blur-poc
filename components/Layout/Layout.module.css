@@ -1,0 +1,5 @@
+.main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  min-height: calc(100vh - var(--header-height));
+}
