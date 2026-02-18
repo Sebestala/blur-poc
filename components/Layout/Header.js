@@ -25,12 +25,8 @@ export default function Header() {
   function handleSpeedChange(newSpeed) {
     setSpeed(newSpeed);
     if (currentTemplate && currentSolution) {
-      const params = new URLSearchParams(window.location.search);
-      if (newSpeed !== 'fast') {
-        params.set('speed', newSpeed);
-      } else {
-        params.delete('speed');
-      }
+      const params = new URLSearchParams();
+      if (newSpeed !== 'fast') params.set('speed', newSpeed);
       if (transition !== 'fadeIn') params.set('transition', transition);
       const qs = params.toString();
       window.location.href = `/${currentTemplate}/${currentSolution}${qs ? `?${qs}` : ''}`;
@@ -40,13 +36,9 @@ export default function Header() {
   function handleTransitionChange(newTransition) {
     setTransition(newTransition);
     if (currentTemplate && currentSolution) {
-      const params = new URLSearchParams(window.location.search);
+      const params = new URLSearchParams();
       if (speed !== 'fast') params.set('speed', speed);
-      if (newTransition !== 'fadeIn') {
-        params.set('transition', newTransition);
-      } else {
-        params.delete('transition');
-      }
+      if (newTransition !== 'fadeIn') params.set('transition', newTransition);
       const qs = params.toString();
       window.location.href = `/${currentTemplate}/${currentSolution}${qs ? `?${qs}` : ''}`;
     }
