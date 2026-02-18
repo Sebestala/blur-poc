@@ -127,12 +127,92 @@
   flex-shrink: 0;
 }
 
+.sectionIntro {
+  font-size: 0.8125rem;
+  color: var(--color-grey-700);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 700px;
+}
+
+.transitionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.transitionCard {
+  border: 1px solid var(--color-grey-200);
+  padding: 24px;
+}
+
+.transitionName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.transitionVisual {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: var(--color-grey-100);
+}
+
+.tvBar {
+  height: 8px;
+  flex: 1;
+  background: var(--color-grey-300);
+  border-radius: 2px;
+}
+
+.tvBarFull {
+  background: var(--color-black);
+}
+
+.tvBarFade {
+  background: linear-gradient(to right, var(--color-grey-300), var(--color-black));
+}
+
+.tvBarBlurSharp {
+  background: linear-gradient(to right, var(--color-grey-300) 0%, var(--color-grey-500) 40%, var(--color-black) 100%);
+  flex: 2;
+}
+
+.tvBarCross1 {
+  background: linear-gradient(to right, var(--color-grey-300), transparent);
+}
+
+.tvBarCross2 {
+  background: linear-gradient(to right, transparent, var(--color-black));
+}
+
+.tvLabel {
+  font-size: 0.5625rem;
+  color: var(--color-grey-500);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.transitionDesc {
+  font-size: 0.75rem;
+  color: var(--color-grey-700);
+  line-height: 1.6;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 24px 20px;
   }
 
   .solutionsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .transitionsGrid {
     grid-template-columns: 1fr;
   }
 }

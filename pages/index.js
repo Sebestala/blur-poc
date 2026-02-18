@@ -96,6 +96,77 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Transitions */}
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Transition Types (S3 only)</h2>
+          <p className={styles.sectionIntro}>
+            When using S3 (Custom Blur), the blur placeholder needs to be replaced by the
+            full-quality image once it has loaded. Four transition styles are available to
+            control how this swap happens. These only apply to S3 because it is the only
+            solution with a visible placeholder that needs to be swapped out.
+          </p>
+          <div className={styles.transitionsGrid}>
+            <div className={styles.transitionCard}>
+              <div className={styles.transitionName}>Instant</div>
+              <div className={styles.transitionVisual}>
+                <div className={styles.tvBar} />
+                <div className={styles.tvLabel}>Blur</div>
+                <div className={`${styles.tvBar} ${styles.tvBarFull}`} />
+                <div className={styles.tvLabel}>HD</div>
+              </div>
+              <p className={styles.transitionDesc}>
+                The blur image disappears and the HD image appears in a single frame.
+                No animation. The swap is immediate and can feel abrupt, but it is the
+                fastest perceived transition.
+              </p>
+            </div>
+
+            <div className={styles.transitionCard}>
+              <div className={styles.transitionName}>Fade In</div>
+              <div className={styles.transitionVisual}>
+                <div className={styles.tvBar} />
+                <div className={styles.tvLabel}>Blur</div>
+                <div className={`${styles.tvBar} ${styles.tvBarFade}`} />
+                <div className={styles.tvLabel}>HD fades in over 0.5s</div>
+              </div>
+              <p className={styles.transitionDesc}>
+                The HD image fades in on top of the blur over 500ms using an opacity
+                transition. The blur disappears simultaneously. This is the smoothest
+                and most commonly used approach.
+              </p>
+            </div>
+
+            <div className={styles.transitionCard}>
+              <div className={styles.transitionName}>Blur to Sharp</div>
+              <div className={styles.transitionVisual}>
+                <div className={`${styles.tvBar} ${styles.tvBarBlurSharp}`} />
+                <div className={styles.tvLabel}>blur(20px) to blur(0) over 0.8s</div>
+              </div>
+              <p className={styles.transitionDesc}>
+                Instead of swapping images, the CSS blur filter on the placeholder
+                gradually decreases from 20px to 0px over 800ms, creating the illusion
+                that the image is "sharpening". The HD image fades in underneath. This
+                creates the most natural-looking loading experience.
+              </p>
+            </div>
+
+            <div className={styles.transitionCard}>
+              <div className={styles.transitionName}>Cross-fade</div>
+              <div className={styles.transitionVisual}>
+                <div className={`${styles.tvBar} ${styles.tvBarCross1}`} />
+                <div className={styles.tvLabel}>Blur fades out</div>
+                <div className={`${styles.tvBar} ${styles.tvBarCross2}`} />
+                <div className={styles.tvLabel}>HD fades in (simultaneous, 0.6s)</div>
+              </div>
+              <p className={styles.transitionDesc}>
+                Both layers transition simultaneously: the blur fades out while the HD
+                fades in, both over 600ms. Similar to Fade In but with a more balanced
+                visual weight during the transition.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Technical note */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Technical Note - BPP Threshold</h2>
