@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styles from './DemoImage.module.css';
 
 /**
@@ -8,6 +8,14 @@ import styles from './DemoImage.module.css';
  */
 export default function NoBlurImage({ src, alt, width, height, priority = false }) {
   const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef(null);
+
+  // Handle cached images that don't fire onLoad
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      setLoaded(true);
+    }
+  }, [src]);
 
   return (
     <div
@@ -18,6 +26,7 @@ export default function NoBlurImage({ src, alt, width, height, priority = false 
         className={`${styles.placeholder} ${loaded ? styles.placeholderHidden : ''}`}
       />
       <img
+        ref={imgRef}
         src={src}
         alt={alt || ''}
         width={width}
