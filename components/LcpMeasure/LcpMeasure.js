@@ -14,9 +14,10 @@ export default function LcpMeasure({ template, solution, speed }) {
     setDisplayedLcp(null);
     setMeasuring(true);
     latestLcpRef.current = null;
+    const pageLoadedRef = { current: document.readyState === 'complete' };
 
     const cleanup = observeLCP((data) => {
-      // Store every entry but don't display yet - wait for stabilization
+      // Store every entry but don't display yet
       latestLcpRef.current = data;
 
       // Reset stabilization timer on each new entry
@@ -24,33 +25,58 @@ export default function LcpMeasure({ template, solution, speed }) {
         clearTimeout(stabilizeTimerRef.current);
       }
 
-      // After 2s without new entries, consider it the final LCP
-      stabilizeTimerRef.current = setTimeout(() => {
-        const finalData = latestLcpRef.current;
-        if (finalData) {
-          setDisplayedLcp(finalData);
-          setLcpData(finalData);
-          storeLCPResult(template, solution, speed, finalData);
-          setMeasuring(false);
-        }
-      }, 2000);
+      // Only start the stabilization timer if the page is fully loaded
+      // (all images downloaded). Before that, more LCP entries are likely coming.
+      if (pageLoadedRef.current) {
+        stabilizeTimerRef.current = setTimeout(() => {
+          finalize();
+        }, 1000);
+      }
     });
 
-    // Stop measuring after 15s max
-    const timeout = setTimeout(() => {
-      // If we have a pending LCP, display it now
-      if (latestLcpRef.current && !displayedLcp) {
-        const finalData = latestLcpRef.current;
+    function finalize() {
+      const finalData = latestLcpRef.current;
+      if (finalData) {
         setDisplayedLcp(finalData);
         setLcpData(finalData);
         storeLCPResult(template, solution, speed, finalData);
+        setMeasuring(false);
+      }
+    }
+
+    // When the page finishes loading (all images), wait 1s then finalize
+    function onPageLoad() {
+      pageLoadedRef.current = true;
+      // Give the browser a moment to emit the final LCP entry after images load
+      if (stabilizeTimerRef.current) {
+        clearTimeout(stabilizeTimerRef.current);
+      }
+      stabilizeTimerRef.current = setTimeout(() => {
+        finalize();
+      }, 1000);
+    }
+
+    if (document.readyState === 'complete') {
+      // Page already loaded - start stabilization timer if we have data
+      if (latestLcpRef.current) {
+        stabilizeTimerRef.current = setTimeout(() => finalize(), 1000);
+      }
+    } else {
+      window.addEventListener('load', onPageLoad);
+    }
+
+    // Stop measuring after 20s max
+    const timeout = setTimeout(() => {
+      if (latestLcpRef.current && measuring) {
+        finalize();
       }
       setMeasuring(false);
-    }, 15000);
+    }, 20000);
 
     return () => {
       cleanup();
       clearTimeout(timeout);
+      window.removeEventListener('load', onPageLoad);
       if (stabilizeTimerRef.current) {
         clearTimeout(stabilizeTimerRef.current);
       }
