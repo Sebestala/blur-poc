@@ -3,14 +3,6 @@ import NativeBlurImage from '@components/DemoImage/NativeBlurImage';
 import { buildDemoProps } from '@lib/pageProps';
 import styles from '@styles/Pdp.module.css';
 
-const BLUR_DATA_URL =
-  'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMCwsKCwsM' +
-  'DhEQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQU' +
-  'FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAGAAoDAREAAhEBAxEB/8QAFgAB' +
-  'AQEAAAAAAAAAAAAAAAAHBAYJ/8QAIhAAAQMEAgIDAAAAAAAAAAAAAQIDBAAFBhEHEiExQWFx/8QAFQEB' +
-  'AQAAAAAAAAAAAAAAAAAAAQL/xAAYEQEBAQEBAAAAAAAAAAAAAAABAAIREv/aAAwDAQACEQMRAD8ALy7lh' +
-  'uGK2W2WTKLc1KhR0MuRmlhxxCkgAlJ9Hf2rSIhf//Z';
-
 export default function PdpNativeBlur({ template, solution, speed, images, thumbnails }) {
   return (
     <DemoPage template={template} solution={solution} speed={speed}>
@@ -20,7 +12,7 @@ export default function PdpNativeBlur({ template, solution, speed, images, thumb
             <NativeBlurImage
               key={img.uuid}
               src={img.fullSrc}
-              blurDataURL={BLUR_DATA_URL}
+              blurDataURL={img.blurDataURL}
               alt={i === 0 ? 'Product main image' : 'Product alternate view'}
               width={img.width}
               height={img.height}

@@ -55,6 +55,10 @@
   pointer-events: none;
 }
 
+.blurLayerDeblur {
+  /* Used by blurToSharp: intermediate state where blur is reducing */
+}
+
 .fullLayer {
   position: absolute;
   inset: 0;
@@ -70,49 +74,59 @@
 }
 
 /* ===== Transition: Instant ===== */
+/* No transition at all - immediate swap */
 .transition_instant.blurLayerHidden {
   opacity: 0;
-  transition: none;
 }
 
 .transition_instant.fullLayerVisible {
   opacity: 1;
-  transition: none;
 }
 
 /* ===== Transition: Fade In ===== */
-.transition_fadeIn.blurLayerHidden {
-  opacity: 0;
-  transition: opacity 0.5s ease;
+/* Full image fades in on top; blur stays visible behind, then hides */
+.transition_fadeIn.fullLayer {
+  transition: opacity 0.8s ease;
 }
 
-.transition_fadeIn.fullLayerVisible {
-  opacity: 1;
-  transition: opacity 0.5s ease;
+.transition_fadeIn.blurLayerHidden {
+  opacity: 0;
+  transition: opacity 0.3s ease 0.6s; /* Delay: hide blur after full image is mostly visible */
 }
 
 /* ===== Transition: Blur to Sharp ===== */
+/* Phase 1: Blur layer deblurs progressively (blur 20px -> 0px) */
+/* Phase 2: After deblur, swap to full image instantly */
 .transition_blurToSharp.blurLayer {
-  transition: filter 0.8s ease, opacity 0.8s ease;
+  transition: filter 0.8s ease, opacity 0.3s ease;
+}
+
+.transition_blurToSharp.blurLayerDeblur {
+  filter: blur(0px);
+  transform: scale(1);
 }
 
 .transition_blurToSharp.blurLayerHidden {
   filter: blur(0px);
+  transform: scale(1);
   opacity: 0;
 }
 
 .transition_blurToSharp.fullLayerVisible {
   opacity: 1;
-  transition: opacity 0.8s ease;
 }
 
 /* ===== Transition: Cross-fade ===== */
-.transition_crossFade.blurLayerHidden {
-  opacity: 0;
-  transition: opacity 0.6s ease;
+/* Blur fades out slowly while full image fades in faster = visible overlap */
+.transition_crossFade.fullLayer {
+  transition: opacity 0.5s ease;
 }
 
-.transition_crossFade.fullLayerVisible {
-  opacity: 1;
-  transition: opacity 0.6s ease;
+.transition_crossFade.blurLayer {
+  transition: filter 0.6s ease, opacity 1s ease;
+}
+
+.transition_crossFade.blurLayerHidden {
+  filter: blur(10px);
+  opacity: 0;
 }

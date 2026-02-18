@@ -38,7 +38,7 @@ export default function DemoPage({ template, solution, speed, children }) {
         {children}
       </div>
 
-      <LcpMeasure template={template} solution={solution} />
+      <LcpMeasure template={template} solution={solution} speed={speed} />
     </>
   );
 }

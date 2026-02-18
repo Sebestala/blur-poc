@@ -121,6 +121,11 @@
   border-color: var(--color-black);
 }
 
+.tabActive:hover {
+  background: var(--color-grey-700);
+  color: var(--color-white);
+}
+
 .resultsLink {
   font-size: 0.6875rem;
   text-transform: uppercase;
@@ -141,6 +146,11 @@
   background: var(--color-black);
   color: var(--color-white);
   border-color: var(--color-black);
+}
+
+.resultsLinkActive:hover {
+  background: var(--color-grey-700);
+  color: var(--color-white);
 }
 
 @media (max-width: 1024px) {

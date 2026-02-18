@@ -3,8 +3,8 @@ import { useDemo } from '@context/DemoContext';
 import { observeLCP, storeLCPResult, getLCPRating } from '@lib/lcp';
 import styles from './LcpMeasure.module.css';
 
-export default function LcpMeasure({ template, solution }) {
-  const { speed, setLcpData } = useDemo();
+export default function LcpMeasure({ template, solution, speed }) {
+  const { setLcpData } = useDemo();
   const [lcp, setLcp] = useState(null);
   const [measuring, setMeasuring] = useState(true);
 

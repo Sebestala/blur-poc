@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './DemoImage.module.css';
 
 /**
@@ -19,6 +19,8 @@ export default function CustomBlurImage({
   transition = 'fadeIn',
 }) {
   const [loaded, setLoaded] = useState(false);
+  const [phase, setPhase] = useState('blur'); // 'blur' | 'transitioning' | 'done'
+  const blurRef = useRef(null);
 
   // Preload the full image
   useEffect(() => {
@@ -28,7 +30,43 @@ export default function CustomBlurImage({
     img.src = fullSrc;
   }, [fullSrc]);
 
+  // Handle transition phases when loaded
+  useEffect(() => {
+    if (!loaded) return;
+
+    if (transition === 'instant') {
+      setPhase('done');
+    } else if (transition === 'blurToSharp') {
+      // Phase 1: deblur the blur layer
+      setPhase('transitioning');
+      // Phase 2: after deblur completes, swap to full image
+      const timer = setTimeout(() => setPhase('done'), 900);
+      return () => clearTimeout(timer);
+    } else {
+      // fadeIn, crossFade: start transition immediately
+      setPhase('done');
+    }
+  }, [loaded, transition]);
+
   const transitionClass = styles[`transition_${transition}`] || styles.transition_fadeIn;
+
+  // Determine layer states based on phase
+  const blurHidden = phase === 'done';
+  const blurDeblurring = phase === 'transitioning';
+  const fullVisible = phase === 'done' || (transition === 'crossFade' && loaded);
+
+  const blurClasses = [
+    styles.blurLayer,
+    transitionClass,
+    blurHidden ? styles.blurLayerHidden : '',
+    blurDeblurring ? styles.blurLayerDeblur : '',
+  ].filter(Boolean).join(' ');
+
+  const fullClasses = [
+    styles.fullLayer,
+    transitionClass,
+    fullVisible ? styles.fullLayerVisible : '',
+  ].filter(Boolean).join(' ');
 
   return (
     <div
@@ -37,12 +75,13 @@ export default function CustomBlurImage({
     >
       {/* Layer 1: Blur placeholder (LCP candidate) */}
       <img
+        ref={blurRef}
         src={blurSrc}
         alt=""
         aria-hidden="true"
         width={width}
         height={height}
-        className={`${styles.blurLayer} ${loaded ? styles.blurLayerHidden : ''} ${transitionClass}`}
+        className={blurClasses}
         loading={priority ? 'eager' : 'lazy'}
         fetchpriority={priority ? 'high' : 'auto'}
       />
@@ -53,7 +92,7 @@ export default function CustomBlurImage({
         alt={alt || ''}
         width={width}
         height={height}
-        className={`${styles.fullLayer} ${loaded ? styles.fullLayerVisible : ''} ${transitionClass}`}
+        className={fullClasses}
         loading={priority ? 'eager' : 'lazy'}
       />
     </div>

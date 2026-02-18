@@ -4,7 +4,7 @@ import '@styles/globals.css';
 
 export default function App({ Component, pageProps }) {
   return (
-    <DemoProvider>
+    <DemoProvider initialSpeed={pageProps.speed} initialTransition={pageProps.transition}>
       <Layout>
         <Component {...pageProps} />
       </Layout>
