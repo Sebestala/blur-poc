@@ -8,19 +8,19 @@ export default function PlpCustomBlur({ template, solution, speed, transition, i
     <DemoPage template={template} solution={solution} speed={speed}>
       <div className={styles.grid}>
         {images.map((img, i) => (
-          <div key={img.uuid} className={styles.card}>
+          <div key={`${img.uuid}-${i}`} className={styles.card}>
             <CustomBlurImage
               fullSrc={img.fullSrc}
               blurSrc={img.blurSrc}
               alt={img.label}
               width={img.width}
               height={img.height}
-              priority={i < 2}
+              priority={i < 4}
               transition={transition}
             />
             <div className={styles.cardInfo}>
-              <span className={styles.cardName}>Product Name</span>
-              <span className={styles.cardPrice}>$1,290</span>
+              <span className={styles.cardName}>{img.name || 'Product'}</span>
+              <span className={styles.cardPrice}>${img.price || '990'}</span>
             </div>
           </div>
         ))}

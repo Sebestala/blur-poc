@@ -7,9 +7,9 @@ export default function CompatBadge({ solution }) {
   return (
     <span
       className={`${styles.badge} ${styles.nextjs}`}
-      title="Applicable to AMQ, YSL (headless Next.js only)"
+      title="Applicable to AMQ, YSL (Headless Next.js only)"
     >
-      Next.js only
+      Headless only
     </span>
   );
 }

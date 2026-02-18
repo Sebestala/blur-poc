@@ -3,7 +3,6 @@ import NativeBlurImage from '@components/DemoImage/NativeBlurImage';
 import { buildDemoProps } from '@lib/pageProps';
 import styles from '@styles/Plp.module.css';
 
-// Tiny blur data URLs for product images
 const BLUR_DATA_URL =
   'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMCwsKCwsM' +
   'DhEQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQU' +
@@ -17,18 +16,18 @@ export default function PlpNativeBlur({ template, solution, speed, images }) {
     <DemoPage template={template} solution={solution} speed={speed}>
       <div className={styles.grid}>
         {images.map((img, i) => (
-          <div key={img.uuid} className={styles.card}>
+          <div key={`${img.uuid}-${i}`} className={styles.card}>
             <NativeBlurImage
               src={img.fullSrc}
               blurDataURL={BLUR_DATA_URL}
               alt={img.label}
               width={img.width}
               height={img.height}
-              priority={i < 2}
+              priority={i < 4}
             />
             <div className={styles.cardInfo}>
-              <span className={styles.cardName}>Product Name</span>
-              <span className={styles.cardPrice}>$1,290</span>
+              <span className={styles.cardName}>{img.name || 'Product'}</span>
+              <span className={styles.cardPrice}>${img.price || '990'}</span>
             </div>
           </div>
         ))}

@@ -8,17 +8,17 @@ export default function PlpNoBlur({ template, solution, speed, images }) {
     <DemoPage template={template} solution={solution} speed={speed}>
       <div className={styles.grid}>
         {images.map((img, i) => (
-          <div key={img.uuid} className={styles.card}>
+          <div key={`${img.uuid}-${i}`} className={styles.card}>
             <NoBlurImage
               src={img.fullSrc}
               alt={img.label}
               width={img.width}
               height={img.height}
-              priority={i < 2}
+              priority={i < 4}
             />
             <div className={styles.cardInfo}>
-              <span className={styles.cardName}>Product Name</span>
-              <span className={styles.cardPrice}>$1,290</span>
+              <span className={styles.cardName}>{img.name || 'Product'}</span>
+              <span className={styles.cardPrice}>${img.price || '990'}</span>
             </div>
           </div>
         ))}

@@ -1,19 +1,23 @@
 import DemoPage from '@components/DemoPage/DemoPage';
 import NoBlurImage from '@components/DemoImage/NoBlurImage';
 import { buildDemoProps } from '@lib/pageProps';
+import styles from '@styles/Hero.module.css';
 
 export default function HeroNoBlur({ template, solution, speed, images }) {
-  const hero = images[0];
-
   return (
     <DemoPage template={template} solution={solution} speed={speed}>
-      <NoBlurImage
-        src={hero.fullSrc}
-        alt="Hero banner"
-        width={hero.width}
-        height={hero.height}
-        priority
-      />
+      <div className={styles.banners}>
+        {images.map((img, i) => (
+          <NoBlurImage
+            key={img.uuid}
+            src={img.fullSrc}
+            alt={img.label}
+            width={img.width}
+            height={img.height}
+            priority={i === 0}
+          />
+        ))}
+      </div>
     </DemoPage>
   );
 }
